@@ -1,0 +1,450 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Iirumva Isaac Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500&display=swap">
+<style>
+/* Layout: a quiet single-page studio. Sticky name bar, hero with one painting, works wall, portfolio card, about, CV timeline, contact. */
+:root {
+  --bg: #0A0A0B; --surface: #131314; --ink: #ECE7DF; --muted: #8F8A82; --line: rgba(236,231,223,.15);
+  --accent: #C8A878; --shadow: rgba(0,0,0,.65); --overlay: rgba(10,10,11,.96);
+  --serif: "Crimson Text", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+html { scroll-behavior: smooth }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg) }
+a { color: inherit }
+img { display: block; max-width: 100% }
+.wrap { max-width: 1120px; margin: 0 auto }
+.label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 500 }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance }
+h2 { font-size: clamp(34px, 5vw, 52px); line-height: 1.05; letter-spacing: -.01em }
+section { padding-block: clamp(56px, 9vw, 108px); border-top: 1px solid var(--line); scroll-margin-top: 56px }
+.head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px }
+
+header.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line);
+  margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 56px }
+.brand { font-family: var(--serif); font-size: 22px; text-decoration: none; white-space: nowrap }
+nav { display: flex; gap: 26px; overflow-x: auto; min-width: 0; scrollbar-width: none }
+nav::-webkit-scrollbar { display: none }
+nav a { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; text-decoration: none; color: var(--muted); white-space: nowrap; padding: 6px 0 }
+nav a:hover, nav a:focus-visible { color: var(--ink) }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px }
+
+.hero { padding-block: clamp(40px, 7vw, 88px) clamp(48px, 8vw, 96px) }
+.hero .wrap { display: block }
+.hero h1 { font-size: clamp(56px, 10vw, 128px); line-height: .92; letter-spacing: -.02em; margin: 18px 0 26px }
+.hero p.lead { font-family: var(--serif); font-size: clamp(19px, 2.2vw, 24px); line-height: 1.4; max-width: 30em; margin: 0 0 28px; color: var(--ink) }
+.hero .now { display: flex; flex-direction: column; gap: 4px; padding-top: 20px; border-top: 1px solid var(--line); max-width: 30em }
+.hero .now span { font-family: var(--serif); font-size: 17px }
+.hero .pic { justify-self: end; width: 100%; max-width: 420px }
+.hero .pic img { box-shadow: 0 2px 6px var(--shadow), 0 28px 54px -22px var(--shadow); height: auto }
+.hero .pic figcaption { margin-top: 14px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted) }
+.hero figure { margin: 0 }
+
+.grid { columns: 3 260px; column-gap: 36px }
+.work { break-inside: avoid; margin: 0 0 44px }
+.wb { all: unset; display: block; cursor: zoom-in; width: 100% }
+.wb img { width: 100%; height: auto; box-shadow: 0 1px 3px var(--shadow), 0 16px 32px -16px var(--shadow); transition: transform .35s ease }
+.wb:hover img { transform: translateY(-3px) }
+.wb:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px }
+figcaption { display: flex; justify-content: space-between; gap: 14px; margin-top: 14px }
+.wt { font-family: var(--serif); font-size: 17px; line-height: 1.25; letter-spacing: .03em }
+.wy { font-size: 11px; letter-spacing: .12em; color: var(--muted); padding-top: 4px }
+.avail { display: flex; flex-wrap: wrap; gap: 8px 28px; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 22px; margin-top: 8px }
+.avail span { font-family: var(--serif); font-size: 21px }
+
+.pf { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center }
+.stack { position: relative; height: clamp(300px, 46vw, 470px) }
+.stack img { position: absolute; width: 46%; height: auto; box-shadow: 0 2px 6px var(--shadow), 0 24px 44px -18px var(--shadow) }
+.stack img:nth-child(1) { left: 0; top: 7% }
+.stack img:nth-child(2) { left: 27%; top: 0; z-index: 2 }
+.stack img:nth-child(3) { left: 54%; top: 11% }
+.pf h3 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin: 12px 0 14px }
+.pf p { margin: 0 0 22px; max-width: 32em; color: var(--muted) }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 12px; letter-spacing: .08em; color: var(--muted); margin-bottom: 28px }
+.btns { display: flex; flex-wrap: wrap; gap: 12px }
+.btn { display: inline-block; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; padding: 14px 22px; border: 1px solid var(--ink) }
+.btn.solid { background: var(--ink); color: var(--bg) }
+.btn:hover { border-color: var(--accent) }
+.btn.solid:hover { background: var(--accent); color: var(--bg) }
+
+.about { display: grid; grid-template-columns: 320px 1fr; gap: clamp(32px, 6vw, 80px) }
+.about .side img { width: 100%; height: auto; filter: grayscale(1); box-shadow: 0 2px 6px var(--shadow), 0 20px 40px -20px var(--shadow) }
+.about .side p { font-size: 13px; color: var(--muted); margin: 18px 0 0; line-height: 1.7 }
+.about .stmt { font-family: var(--serif); font-size: clamp(24px, 3vw, 32px); line-height: 1.3; margin: 0 0 28px }
+.about .col p { font-family: var(--serif); font-size: 19px; line-height: 1.55; max-width: 36em; margin: 0 0 16px }
+details { margin-top: 36px; border-top: 1px solid var(--line); padding-top: 18px }
+summary { cursor: pointer; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 500 }
+details .bio p { font-family: var(--serif); font-size: 18px; line-height: 1.55; max-width: 36em; margin: 18px 0 0 }
+
+.cv .blk { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid var(--line) }
+.cv .blk:first-of-type { border-top: 0 }
+.cv h3 { font-family: var(--sans); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding-top: 5px }
+.cv .body { font-size: 16px; line-height: 1.55 }
+.cv .body strong { font-weight: 500 }
+.yr { display: grid; grid-template-columns: 90px 1fr; gap: 20px; padding: 16px 0; border-top: 1px solid var(--line) }
+.yr:first-child { border-top: 0; padding-top: 0 }
+.yr h4 { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1; margin: 0 }
+.yr ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; min-width: 0 }
+.yr li { font-size: 15px; line-height: 1.5 }
+.yr li b { font-weight: 500 }
+.write { display: grid; gap: 0 }
+.wr { display: flex; justify-content: space-between; gap: 24px; align-items: baseline; padding: 20px 0; border-top: 1px solid var(--line) }
+.wr:last-child { border-bottom: 1px solid var(--line) }
+.wr .t { font-family: var(--serif); font-size: 22px; line-height: 1.25; max-width: 30em }
+.wr .k { font-size: 12px; letter-spacing: .1em; color: var(--muted); white-space: nowrap }
+.note { font-size: 13px; color: var(--muted); margin-top: 18px }
+
+.contact dl { display: grid; grid-template-columns: 150px 1fr; gap: 0; margin: 0; max-width: 760px }
+.contact dt, .contact dd { margin: 0; padding: 18px 0; border-top: 1px solid var(--line) }
+.contact dt { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding-top: 22px }
+.contact dd { font-family: var(--serif); font-size: 22px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; min-width: 0; overflow-wrap: anywhere }
+.contact dl > :nth-last-child(-n+2) { border-bottom: 1px solid var(--line) }
+.copy { font-family: var(--sans); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line); padding: 5px 10px; cursor: pointer }
+.copy:hover { color: var(--ink); border-color: var(--ink) }
+footer { border-top: 1px solid var(--line); padding-block: 36px 48px; font-size: 12px; color: var(--muted); letter-spacing: .06em }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px }
+
+#lb { position: fixed; inset: 0; z-index: 50; background: var(--overlay); display: none; flex-direction: column; align-items: center; justify-content: center;
+  padding: max(20px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(20px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)) }
+#lb.on { display: flex }
+#lb img { max-width: min(92vw, 900px); max-height: 74vh; width: auto; height: auto; object-fit: contain; box-shadow: 0 2px 6px var(--shadow), 0 30px 60px -24px var(--shadow) }
+#lb .cap { margin-top: 22px; text-align: center; max-width: 640px }
+#lb .cap .t { font-family: var(--serif); font-size: 24px; letter-spacing: .04em }
+#lb .cap .tr { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 18px }
+#lb .cap .m { font-size: 12px; letter-spacing: .1em; color: var(--muted); margin-top: 8px }
+#lb button { position: absolute; background: none; border: 0; color: var(--ink); cursor: pointer; font-family: var(--sans); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; padding: 14px }
+#lb .x { top: max(8px, env(safe-area-inset-top, 0px)); right: max(8px, env(safe-area-inset-right, 0px)) }
+#lb .p { left: max(4px, env(safe-area-inset-left, 0px)); top: 50% }
+#lb .n { right: max(4px, env(safe-area-inset-right, 0px)); top: 50% }
+
+@media (max-width: 820px) {
+  .pf, .about { grid-template-columns: 1fr }
+  .hero .pic { justify-self: start; max-width: 340px }
+  .about .side { max-width: 300px }
+  .cv .blk, .contact dl { grid-template-columns: 1fr; gap: 6px }
+  .contact dt { border-bottom: 0; padding-bottom: 0 }
+  .contact dd { border-top: 0; padding-top: 4px }
+  .contact dl > :nth-last-child(2) { border-bottom: 0 }
+  .yr { grid-template-columns: 1fr; gap: 8px }
+  .wr { flex-direction: column; gap: 6px }
+  .bar .wrap { gap: 14px }
+  .brand { font-size: 19px }
+  nav { gap: 18px }
+  #lb .p, #lb .n { top: auto; bottom: max(10px, env(safe-area-inset-bottom, 0px)) }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto } .wb img { transition: none } }
+
+#prints .intro { font-family: var(--serif); font-size: clamp(20px, 2.4vw, 26px); line-height: 1.35; max-width: 30em; margin: 0 0 8px }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 36px }
+.chip { font-family: var(--sans); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line); padding: 9px 14px; cursor: pointer }
+.chip:hover { color: var(--ink); border-color: var(--ink) }
+.chip.on { color: var(--bg); background: var(--ink); border-color: var(--ink) }
+.pgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 36px 24px }
+.pt { all: unset; display: block; cursor: pointer; min-width: 0 }
+.pt[hidden] { display: none }
+.pt:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px }
+.pt img { width: 100%; height: auto; aspect-ratio: 1; display: block; box-shadow: 0 1px 3px var(--shadow), 0 14px 28px -16px var(--shadow); transition: transform .35s ease }
+.pt:hover img { transform: translateY(-3px) }
+.pt .pc { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px }
+.pt .pn { font-family: var(--serif); font-size: 18px; line-height: 1.2; letter-spacing: .03em }
+.pt .pp { font-size: 12px; letter-spacing: .1em; color: var(--muted); padding-top: 3px; white-space: nowrap }
+.pnote { margin: 36px 0 0; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); max-width: 44em }
+
+#pm { position: fixed; inset: 0; z-index: 50; background: var(--bg); display: none; overflow-y: auto; overscroll-behavior: contain;
+  padding: max(20px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(28px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)) }
+#pm.on { display: block }
+#pm .pbox { max-width: 1040px; margin: 56px auto 0; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(26px, 5vw, 64px); align-items: start }
+#pm .pimg { width: 100%; height: auto; aspect-ratio: 1; display: block; box-shadow: 0 2px 6px var(--shadow), 0 28px 54px -22px var(--shadow) }
+#pm .info { min-width: 0; display: flex; flex-direction: column; gap: 22px }
+#pm .kick { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 500 }
+#pm h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(38px, 5vw, 54px); line-height: 1; margin: 0 }
+#pm .desc { font-family: var(--serif); font-size: 21px; line-height: 1.4; margin: 0; max-width: 24em }
+#pm .series { font-size: 13px; color: var(--muted); margin: 0; max-width: 32em; line-height: 1.6 }
+#pm dl { display: grid; grid-template-columns: 120px 1fr; margin: 0 }
+#pm dt, #pm dd { margin: 0; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px }
+#pm dt { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); font-weight: 500; padding-top: 14px }
+#pm dl > :nth-last-child(-n+2) { border-bottom: 1px solid var(--line) }
+#pm .price { display: flex; align-items: baseline; gap: 14px }
+#pm .price b { font-family: var(--serif); font-weight: 400; font-size: 44px; line-height: 1 }
+#pm .price span { font-size: 12px; letter-spacing: .1em; color: var(--muted) }
+#pm .order { border: 1px solid var(--line); padding: 20px; display: flex; flex-direction: column; gap: 14px; background: var(--surface) }
+#pm .order p { margin: 0; font-size: 14px; line-height: 1.55 }
+#pm .msg { font-family: var(--serif); font-size: 17px; line-height: 1.45; color: var(--ink); background: var(--bg); padding: 12px 14px; border: 1px solid var(--line); overflow-wrap: anywhere }
+#pm .row { display: flex; flex-wrap: wrap; gap: 10px }
+#pm .pbtn { font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; background: none; color: var(--ink); border: 1px solid var(--ink); padding: 12px 16px; cursor: pointer }
+#pm .pbtn.solid { background: var(--ink); color: var(--bg) }
+#pm .pbtn:hover { border-color: var(--accent) }
+#pm .pbtn.solid:hover { background: var(--accent) }
+#pm .mail { font-size: 14px; overflow-wrap: anywhere }
+#pm .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 6px }
+#pm .nav button, #pm .x { font-family: var(--sans); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; background: none; border: 0; color: var(--ink); cursor: pointer; padding: 12px 0 }
+#pm .nav .ct { font-size: 12px; color: var(--muted); letter-spacing: .1em }
+#pm .x { position: fixed; top: max(10px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); z-index: 2; background: var(--overlay); padding: 12px 14px }
+#pm button:focus-visible, #pm a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px }
+@media (max-width: 820px) {
+  #pm .pbox { grid-template-columns: 1fr; margin-top: 44px }
+  #pm .pimg { max-width: 560px }
+  #pm dl { grid-template-columns: 104px 1fr }
+}
+.pt img, #pm .pimg { outline: 1px solid var(--line); outline-offset: -1px }
+@media (prefers-reduced-motion: reduce) { .pt img { transition: none } }
+
+/* Slow, dramatic motion */
+#lb, #pm { visibility: hidden; opacity: 0; transition: opacity .9s cubic-bezier(.4,0,.2,1), visibility 0s linear .9s }
+#lb { display: flex; background: var(--bg) }
+#pm { display: block }
+#lb.on, #pm.on { visibility: visible; opacity: 1; transition: opacity 1.1s cubic-bezier(.4,0,.2,1), visibility 0s }
+#lb img, #pm .pimg { opacity: 0; transform: scale(1.045); transition: opacity .8s ease, transform .9s ease }
+#lb.on img, #pm.on .pimg { opacity: 1; transform: none; transition: opacity 1.4s ease .25s, transform 2.4s cubic-bezier(.16,1,.3,1) .1s }
+#lb .cap { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease }
+#lb.on .cap { opacity: 1; transform: none; transition: opacity 1.2s ease .9s, transform 1.5s cubic-bezier(.16,1,.3,1) .9s }
+#pm .info > * { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease }
+#pm.on .info > * { opacity: 1; transform: none; transition: opacity 1.1s ease, transform 1.4s cubic-bezier(.16,1,.3,1); transition-delay: .6s }
+#pm.on .info > :nth-child(2) { transition-delay: .68s }
+#pm.on .info > :nth-child(3) { transition-delay: .76s }
+#pm.on .info > :nth-child(4) { transition-delay: .84s }
+#pm.on .info > :nth-child(5) { transition-delay: .92s }
+#pm.on .info > :nth-child(6) { transition-delay: 1s }
+#pm.on .info > :nth-child(7) { transition-delay: 1.08s }
+#pm.on .info > :nth-child(8) { transition-delay: 1.16s }
+#lb.swapping img, #lb.swapping .cap, #pm.swapping .pimg, #pm.swapping .info > :not(.nav) { opacity: 0; transform: translateX(calc(var(--dx, 0px) * -1)); transition: opacity .5s ease, transform .5s ease; transition-delay: 0s }
+#lb.pre img, #lb.pre .cap, #pm.pre .pimg, #pm.pre .info > :not(.nav) { opacity: 0; transform: translateX(var(--dx, 0px)); transition: none !important }
+.wb img, .pt img { transition: transform 1.1s cubic-bezier(.16,1,.3,1) }
+.wb:hover img, .pt:hover img { transform: translateY(-4px) scale(1.015) }
+@media (prefers-reduced-motion: reduce) { #lb, #pm, #lb *, #pm * { transition-duration: .01s !important; transition-delay: 0s !important } }
+</style>
+
+<header class="bar"><div class="wrap">
+  <a class="brand" href="#top">Iirumva Isaac</a>
+  <nav aria-label="Sections"><a href="#works">Works</a><a href="#prints">Prints</a><a href="#portfolio">Portfolio</a><a href="#about">About</a><a href="#cv">CV</a><a href="#writing">Writing</a><a href="#contact">Contact</a></nav>
+</div></header>
+
+<main id="top">
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="label">Contemporary visual artist · Kigali, Rwanda</div>
+    <h1>Iirumva<br>Isaac</h1>
+    <p class="lead">Figurative painting on identity, memory and human connection, told through everyday life and storytelling.</p>
+    <div class="now"><div class="label">Most recent</div><span>Tilal Utique Artist-in-Residence, Kamel Lazaar Foundation, Tunisia, 2026</span></div>
+  </div>
+</div></div>
+
+<section id="works"><div class="wrap">
+  <div class="head"><div class="label">Selected works · 5 of 31 paintings</div><h2>Works</h2></div>
+  <div class="grid"><figure class="work" data-i="0"><button type="button" class="wb" aria-label="View THE KING’S GAME"><img src="works/01.jpg" width="788" height="1005" alt="THE KING’S GAME, 2021" loading="lazy"></button><figcaption><span class="wt">THE KING’S GAME</span><span class="wy">2021</span></figcaption></figure><figure class="work" data-i="1"><button type="button" class="wb" aria-label="View THE SUMMER TAPE"><img src="works/03.jpg" width="735" height="1005" alt="THE SUMMER TAPE, 2022" loading="lazy"></button><figcaption><span class="wt">THE SUMMER TAPE</span><span class="wy">2022</span></figcaption></figure><figure class="work" data-i="2"><button type="button" class="wb" aria-label="View THE WAITER"><img src="works/12.jpg" width="640" height="1005" alt="THE WAITER, 2022" loading="lazy"></button><figcaption><span class="wt">THE WAITER</span><span class="wy">2022</span></figcaption></figure><figure class="work" data-i="3"><button type="button" class="wb" aria-label="View LEISURE"><img src="works/22.jpg" width="713" height="1005" alt="LEISURE, 2022" loading="lazy"></button><figcaption><span class="wt">LEISURE</span><span class="wy">2022</span></figcaption></figure><figure class="work" data-i="4"><button type="button" class="wb" aria-label="View RUKUNDO"><img src="works/25.jpg" width="667" height="1005" alt="RUKUNDO, 2022" loading="lazy"></button><figcaption><span class="wt">RUKUNDO</span><span class="wy">2022</span></figcaption></figure></div>
+  <div class="avail"><span>The other 26 works are in the portfolio.</span><a class="btn" href="#portfolio">See all 31 works</a></div>
+</div></section>
+
+<section id="prints"><div class="wrap">
+  <div class="head"><div class="label">Prints · €30 each</div><h2>Prints</h2></div>
+  <p class="intro">Plant-like forms in flat colour, standing for mental states, inner healing and resilience.</p>
+  <div class="chips" role="group" aria-label="Filter prints by colour"><button class="chip on" type="button" data-f="all">All 15</button><button class="chip" type="button" data-f="Ivory">Ivory 2</button><button class="chip" type="button" data-f="Yellow">Yellow 3</button><button class="chip" type="button" data-f="Red">Red 3</button><button class="chip" type="button" data-f="Blue">Blue 3</button><button class="chip" type="button" data-f="Black">Black 4</button></div>
+  <div class="pgrid"><button class="pt" type="button" data-i="0" data-c="Ivory" aria-label="Ivory I, €30. View details"><img src="prints/t-01.jpg" width="640" height="640" alt="Ivory I: A tall curved stem carrying charcoal and blush petals at its tip." loading="lazy"><span class="pc"><span class="pn">Ivory I</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="1" data-c="Ivory" aria-label="Ivory II, €30. View details"><img src="prints/t-02.jpg" width="640" height="640" alt="Ivory II: Charcoal petals resting on a single, wide arc." loading="lazy"><span class="pc"><span class="pn">Ivory II</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="2" data-c="Yellow" aria-label="Yellow I, €30. View details"><img src="prints/t-03.jpg" width="640" height="640" alt="Yellow I: A slender tilted stem with one golden bloom and pale buds." loading="lazy"><span class="pc"><span class="pn">Yellow I</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="3" data-c="Yellow" aria-label="Yellow II, €30. View details"><img src="prints/t-04.jpg" width="640" height="640" alt="Yellow II: Cream and ochre petals drifting, with no stem." loading="lazy"><span class="pc"><span class="pn">Yellow II</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="4" data-c="Yellow" aria-label="Yellow III, €30. View details"><img src="prints/t-05.jpg" width="640" height="640" alt="Yellow III: An olive stem curving past a column of pale petals." loading="lazy"><span class="pc"><span class="pn">Yellow III</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="5" data-c="Red" aria-label="Red I, €30. View details"><img src="prints/t-06.jpg" width="640" height="640" alt="Red I: Two deep green petals floating on a field of red." loading="lazy"><span class="pc"><span class="pn">Red I</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="6" data-c="Red" aria-label="Red II, €30. View details"><img src="prints/t-07.jpg" width="640" height="640" alt="Red II: A dark stem leans across red, with green leaves and a gold sliver." loading="lazy"><span class="pc"><span class="pn">Red II</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="7" data-c="Red" aria-label="Red III, €30. View details"><img src="prints/t-08.jpg" width="640" height="640" alt="Red III: One vertical line holding green, grey and pink petals." loading="lazy"><span class="pc"><span class="pn">Red III</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="8" data-c="Blue" aria-label="Blue I, €30. View details"><img src="prints/t-09.jpg" width="640" height="640" alt="Blue I: Ivory and brown petals scattered across blue." loading="lazy"><span class="pc"><span class="pn">Blue I</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="9" data-c="Blue" aria-label="Blue II, €30. View details"><img src="prints/t-10.jpg" width="640" height="640" alt="Blue II: One large white petal with a blush centre, on a brown stem." loading="lazy"><span class="pc"><span class="pn">Blue II</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="10" data-c="Blue" aria-label="Blue III, €30. View details"><img src="prints/t-11.jpg" width="640" height="640" alt="Blue III: Ivory and brown leaves along a white curved stem." loading="lazy"><span class="pc"><span class="pn">Blue III</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="11" data-c="Black" aria-label="Black I, €30. View details"><img src="prints/t-12.jpg" width="640" height="640" alt="Black I: A fine curved line with a single small blush petal." loading="lazy"><span class="pc"><span class="pn">Black I</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="12" data-c="Black" aria-label="Black II, €30. View details"><img src="prints/t-13.jpg" width="640" height="640" alt="Black II: An olive stem with blush and green petals on black." loading="lazy"><span class="pc"><span class="pn">Black II</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="13" data-c="Black" aria-label="Black III, €30. View details"><img src="prints/t-14.jpg" width="640" height="640" alt="Black III: Blush petals opening beside a large olive half-disc." loading="lazy"><span class="pc"><span class="pn">Black III</span><span class="pp">€30</span></span></button><button class="pt" type="button" data-i="14" data-c="Black" aria-label="Black IV, €30. View details"><img src="prints/t-15.jpg" width="640" height="640" alt="Black IV: A companion to Black III, with the same forms in a different balance." loading="lazy"><span class="pc"><span class="pn">Black IV</span><span class="pp">€30</span></span></button></div>
+  <p class="pnote">Open a print to read about it and see how to order. Printed size and paper are confirmed when you order.</p>
+</div></section>
+
+<section id="portfolio"><div class="wrap">
+  <div class="pf">
+    <div class="stack" aria-hidden="true"><img src="portfolio/p-01.jpg" width="579" height="819" alt=""><img src="portfolio/p-07.jpg" width="579" height="819" alt=""><img src="portfolio/p-29.jpg" width="579" height="819" alt=""></div>
+    <div>
+      <div class="label">Portfolio</div>
+      <h3>Portfolio 2026–27</h3>
+      <p>The complete portfolio in one document: artist statement, all 31 works with dimensions, the curriculum vitae and contact details. Every entry in the contents is a link.</p>
+      <div class="meta"><span>30 pages</span><span>A4</span><span>PDF</span></div>
+      <div class="btns"><a class="btn solid" href="portfolio/Iirumva-Isaac-Portfolio-2026-27.pdf" target="_blank" rel="noopener">Open the portfolio</a><a class="btn" href="#contact">Request high-resolution images</a></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="about"><div class="wrap">
+  <div class="head"><div class="label">About</div><h2>Artist statement</h2></div>
+  <div class="about">
+    <div class="side"><img src="portrait.png" width="329" height="272" alt="Portrait of Iirumva Isaac"><p>Manirumva Isaac,<br>known professionally as Iirumva Isaac.<br>Born 1998. Lives and works in Kigali, Rwanda.</p></div>
+    <div class="col">
+      <p class="stmt">Iirumva Isaac is a Rwandan contemporary visual artist whose figurative painting practice explores identity, memory, and human connection through everyday life and storytelling.</p>
+      <p>Rooted in lived experience and personal memory, his work focuses on relationships, shared spaces, and the quiet emotional moments that shape community life. Working primarily with painting, he uses expressive color and gesture to reveal intimacy within ordinary scenes.</p>
+      <p>His practice also includes photography, digital media, and experimental moving image. As an artist from the Global South, he is interested in how localized experiences of connection, love, and cultural negotiation resonate across different geographies, creating spaces for dialogue and cross-cultural exchange.</p>
+      <details><summary>On the work</summary><div class="bio"><p>Iirumva Isaac’s work is ‘Connection made tangible’. His work explores people’s relationships, culture, and inevitable change. How can art show the bridging of gaps that are fraught with miscommunication and misunderstanding between different cultures, generations, and even lovers? Is identity defined through self, or the eyes of others?</p><p>Born in 1998, Isaac defines his art as 21st century contemporary, influenced by global cultures and technological advancement. With bright colors and vivid playful characters of a naïve style, Isaac immediately transports the viewer to a story in progress with compelling interactions. It is hard not to smile. The interiors are welcoming, not claustrophobic, and the titles give us a clue to the drama unfolding. You can almost hear the conversations taking place, told through a look or the placement of Isaac’s stylized characters. But peer closely and there is more ambiguity and layers to unwrap to understand what is really going on.</p><p>Looking at culture—both written and unwritten—over time, Isaac explores reaching across generational shifts, with the young wedded to technology and the old to tradition. How can they not just co-exist but nurture each other? Equally, in showing romantic love, his couples portrayed from Date Night to Marriage show affection but perhaps also humored frustration on the path to intimacy. Portraits of friends show camaraderie but also that bit of competition.</p><p>Through his choice of color, bold characterization and humorous titles, self-taught artist Isaac gives life to his thoughts and identity to his characters. He speaks for those who cannot speak for themselves and we are fortunate to get to know them through his art. He captures life’s exuberance and human interconnectedness with all its joys and foibles.</p><p>Iirumva Isaac currently lives and works in Kigali, Rwanda and was a finalist in the 2022 pan-African Emerging Painting Invitational.</p></div></details>
+    </div>
+  </div>
+</div></section>
+
+<section id="cv" class="cv"><div class="wrap">
+  <div class="head"><div class="label">Curriculum vitae</div><h2>CV</h2></div>
+  <div class="blk"><h3>Education</h3><div class="body"><strong>Academy of Fine Art</strong><br>St. Petersburg, Russia<br>2022–2023</div></div>
+  <div class="blk"><h3>Artist residency</h3><div class="body"><strong>2026</strong><br>Tilal Utique Artist-in-Residence — Kamel Lazaar Foundation, Tunisia</div></div>
+  <div class="blk"><h3>Selected exhibitions</h3><div class="body"><div class="yr"><h4>2024</h4><ul><li><i>ITWEKA</i> — Solo Exhibition, Rwanda</li><li>Kigali Triennial — Kigali, Rwanda</li></ul></div><div class="yr"><h4>2023</h4><ul><li>Finalist, <b>Innopraktika &amp; Russian Seasons School – Art Session</b>, Imperial Academy of Arts, St. Petersburg, Russia</li><li><i>Art in Spite of Everything</i>, curated by the Museum of African Art in Belgrade — Serbia</li><li><i>Beyond the Paper</i> — Solo Exhibition, Rwanda</li><li><i>African Aurora</i> — Rwandan Contemporary Art Exhibition — Seoul, South Korea</li><li><i>Power of Love</i>, curated by LouiSimone Guirandou Gallery — Abidjan, Côte d’Ivoire</li></ul></div><div class="yr"><h4>2022</h4><ul><li><b>Emerging Painting Invitational Prize (EPI)</b> — Finalist, Online / Investec Cape Town Art Fair, South Africa</li><li><i>We the Future: East Africa</i>, supported by Rwanda National Museum — Novi Sad, Serbia</li><li><i>Emerging East African Talent</i>, curated by aKAZ! — Atlanta, USA</li></ul></div><div class="yr"><h4>2021</h4><ul><li><b>ALD Artist Exhibition</b>, curated by Rwanda National Museum — Rwanda</li><li><i>Marriage and Humor</i> — Solo Exhibition, Indiba Art Space, Rwanda</li><li><i>Walk the Line</i> — Triennial of Drawing and Sculpture, curated by ULUS (Association of Fine Artists of Serbia) — Serbia</li><li><i>Arts and Health</i> publication — <i>Small Room</i> (painting), United Kingdom</li></ul></div><div class="yr"><h4>2020</h4><ul><li><i>Female Artistic Maturity</i> — Solo Exhibition, Indiba Art Space, Rwanda</li><li>ARTJA International Art Biennial — Serbia</li><li><i>Novembre Numérique</i>, curated by Maison Beaulier &amp; Institut Français — Rwanda</li><li>Hamwe Festival, University of Global Health Equity — Rwanda</li><li><i>Calli Diaspora Call</i>, curated by FormeFemine — Germany, USA, United Kingdom</li></ul></div><div class="yr"><h4>2019</h4><ul><li>Afringali Street Art Festival — Rwanda</li></ul></div><div class="yr"><h4>2018</h4><ul><li><i>Autour de Moi</i>, curated by Maison Beaulier — Rwanda</li></ul></div></div></div>
+</div></section>
+
+<section id="writing"><div class="wrap">
+  <div class="head"><div class="label">Writing and notes</div><h2>From the studio</h2></div>
+  <div class="write">
+    <div class="wr"><div class="t">How to Tell Stories in the 21st Century as an African Contemporary Artist</div><div class="k">Art essay · 2026</div></div>
+    <div class="wr"><div class="t">A month in Tunisia, my Tilal Utique residency</div><div class="k">Residency notes · 2026</div></div>
+  </div>
+  <p class="note">Both pieces are on the <a href="https://sites.google.com/view/the-artist-studio/home" target="_blank" rel="noopener">current studio page</a>.</p>
+</div></section>
+
+<section id="contact" class="contact"><div class="wrap">
+  <div class="head"><div class="label">Contact</div><h2>Get in touch</h2></div>
+  <p style="margin:0 0 30px;font-family:var(--serif);font-size:21px;max-width:34em">Available studio works, 2021–2024. Details on request.</p>
+  <dl>
+    <dt>Based in</dt><dd>Kigali, Rwanda</dd>
+    <dt>Email</dt><dd><span id="em">iirumvaisaac@gmail.com</span><button class="copy" type="button" data-t="em">Copy</button></dd>
+    <dt>Phone</dt><dd><span id="ph">+250 784 661 712</span><button class="copy" type="button" data-t="ph">Copy</button></dd>
+    <dt>Instagram</dt><dd><a href="https://www.instagram.com/iirumvaisaac/" target="_blank" rel="noopener">@iirumvaisaac</a></dd>
+    <dt>Studio page</dt><dd><a href="https://sites.google.com/view/the-artist-studio/home" target="_blank" rel="noopener">the-artist-studio</a></dd>
+  </dl>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Iirumva Isaac (Manirumva Isaac)</span><span>Kigali, Rwanda</span></div></footer>
+
+<div id="pm" role="dialog" aria-modal="true" aria-label="Print details">
+  <button class="x" type="button" aria-label="Close">Close</button>
+  <div class="pbox">
+    <img class="pimg" alt="" src="">
+    <div class="info">
+      <div class="kick"></div>
+      <h3></h3>
+      <p class="desc"></p>
+      <p class="series">From the plant series: organic forms and natural palettes as symbols of inner healing and resilience.</p>
+      <dl>
+        <dt>Series</dt><dd>Plant series</dd>
+        <dt>Colourway</dt><dd class="dc"></dd>
+        <dt>Format</dt><dd>Square</dd>
+        <dt>Artist</dt><dd>Iirumva Isaac</dd>
+        <dt>Signature</dt><dd>Included in the artwork</dd>
+      </dl>
+      <div class="price"><b>€30</b><span>per print</span></div>
+      <div class="order">
+        <p><strong>To order</strong>, email the print name and your delivery country to <span class="mail" id="pmail">iirumvaisaac@gmail.com</span>.</p>
+        <div class="msg" id="pmsg"></div>
+        <div class="row">
+          <button class="pbtn solid" type="button" id="pcopy">Copy order message</button>
+          <a class="pbtn" id="pmailto" href="#">Open email</a>
+          <a class="pbtn" href="https://www.instagram.com/iirumvaisaac/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div class="nav"><button type="button" class="pv">Previous</button><span class="ct"></span><button type="button" class="nx">Next</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="Artwork viewer">
+  <button class="x" type="button" aria-label="Close">Close</button>
+  <button class="p" type="button" aria-label="Previous work">Prev</button>
+  <button class="n" type="button" aria-label="Next work">Next</button>
+  <img alt="" src="">
+  <div class="cap"><div class="t"></div><div class="tr"></div><div class="m"></div></div>
+</div>
+
+<script>
+const W = [{"n": 1, "title": "THE KING’S GAME", "tr": "", "year": 2021, "med": "Oil on canvas", "H": 100, "W": 75}, {"n": 3, "title": "THE SUMMER TAPE", "tr": "", "year": 2022, "med": "Oil on canvas", "H": 120, "W": 80}, {"n": 12, "title": "THE WAITER", "tr": "", "year": 2022, "med": "Oil on canvas", "H": 120, "W": 75}, {"n": 22, "title": "LEISURE", "tr": "", "year": 2022, "med": "Oil on canvas", "H": 100, "W": 70}, {"n": 25, "title": "RUKUNDO", "tr": "D’AMOUR", "year": 2022, "med": "Oil on canvas", "H": 80, "W": 70}];
+const lb = document.getElementById('lb'), im = lb.querySelector('img');
+let cur = 0, opener = null;
+function paint(i) {
+  cur = (i + W.length) % W.length; const w = W[cur];
+  im.src = 'works/' + String(w.n).padStart(2, '0') + '.jpg'; im.alt = w.title;
+  lb.querySelector('.t').textContent = w.title;
+  lb.querySelector('.tr').textContent = w.tr;
+  lb.querySelector('.m').textContent = w.year + ' · ' + w.med + ' · ' + w.H + ' × ' + w.W + ' cm';
+}
+let swapT;
+function show(i, dir) {
+  if (!lb.classList.contains('on') || !dir) { paint(i); return; }
+  clearTimeout(swapT);
+  cur = (i + W.length) % W.length;
+  lb.style.setProperty('--dx', (dir * 36) + 'px');
+  lb.classList.add('swapping');
+  swapT = setTimeout(() => {
+    paint(cur);
+    lb.classList.add('pre'); lb.classList.remove('swapping'); void lb.offsetWidth;
+    const done = () => lb.classList.remove('pre');
+    im.decode ? im.decode().then(done, done) : done();
+  }, 520);
+}
+function open(i, el) { opener = el; show(i); lb.classList.add('on'); lb.querySelector('.x').focus(); document.body.style.overflow = 'hidden'; }
+function close() { lb.classList.remove('on'); document.body.style.overflow = ''; if (opener) opener.focus(); }
+document.querySelectorAll('.work').forEach(f => f.querySelector('.wb').addEventListener('click', e => open(+f.dataset.i, e.currentTarget)));
+lb.querySelector('.x').onclick = close;
+lb.querySelector('.p').onclick = () => show(cur - 1, -1);
+lb.querySelector('.n').onclick = () => show(cur + 1, 1);
+lb.addEventListener('click', e => { if (e.target === lb) close(); });
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('on')) return;
+  if (e.key === 'Escape') close(); else if (e.key === 'ArrowLeft') show(cur - 1, -1); else if (e.key === 'ArrowRight') show(cur + 1, 1);
+});
+document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', async () => {
+  const el = document.getElementById(b.dataset.t); const txt = el.textContent;
+  try { await navigator.clipboard.writeText(txt); b.textContent = 'Copied'; }
+  catch (e) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected'; }
+  setTimeout(() => b.textContent = 'Copy', 1800);
+}));
+
+(function () {
+  const PR = [{"n": 1, "title": "Ivory I", "colour": "Ivory", "desc": "A tall curved stem carrying charcoal and blush petals at its tip."}, {"n": 2, "title": "Ivory II", "colour": "Ivory", "desc": "Charcoal petals resting on a single, wide arc."}, {"n": 3, "title": "Yellow I", "colour": "Yellow", "desc": "A slender tilted stem with one golden bloom and pale buds."}, {"n": 4, "title": "Yellow II", "colour": "Yellow", "desc": "Cream and ochre petals drifting, with no stem."}, {"n": 5, "title": "Yellow III", "colour": "Yellow", "desc": "An olive stem curving past a column of pale petals."}, {"n": 6, "title": "Red I", "colour": "Red", "desc": "Two deep green petals floating on a field of red."}, {"n": 7, "title": "Red II", "colour": "Red", "desc": "A dark stem leans across red, with green leaves and a gold sliver."}, {"n": 8, "title": "Red III", "colour": "Red", "desc": "One vertical line holding green, grey and pink petals."}, {"n": 9, "title": "Blue I", "colour": "Blue", "desc": "Ivory and brown petals scattered across blue."}, {"n": 10, "title": "Blue II", "colour": "Blue", "desc": "One large white petal with a blush centre, on a brown stem."}, {"n": 11, "title": "Blue III", "colour": "Blue", "desc": "Ivory and brown leaves along a white curved stem."}, {"n": 12, "title": "Black I", "colour": "Black", "desc": "A fine curved line with a single small blush petal."}, {"n": 13, "title": "Black II", "colour": "Black", "desc": "An olive stem with blush and green petals on black."}, {"n": 14, "title": "Black III", "colour": "Black", "desc": "Blush petals opening beside a large olive half-disc."}, {"n": 15, "title": "Black IV", "colour": "Black", "desc": "A companion to Black III, with the same forms in a different balance."}], EMAIL = "iirumvaisaac@gmail.com", PRICE = 30;
+  const pm = document.getElementById('pm'), pimg = pm.querySelector('.pimg');
+  const tiles = [...document.querySelectorAll('.pt')];
+  let vis = PR.map((_, i) => i), cur = 0, opener = null;
+  function paint(k) {
+    cur = (k + vis.length) % vis.length; const p = PR[vis[cur]];
+    pimg.src = 'prints/' + String(p.n).padStart(2, '0') + '.jpg'; pimg.alt = p.title + ': ' + p.desc;
+    pm.querySelector('.kick').textContent = 'Plant series · ' + String(p.n).padStart(2, '0') + ' / ' + PR.length;
+    pm.querySelector('h3').textContent = p.title;
+    pm.querySelector('.desc').textContent = p.desc;
+    pm.querySelector('.dc').textContent = p.colour;
+    const msg = 'Hello Isaac, I would like to order the print "' + p.title + '" (€' + PRICE + '). My delivery country is: ';
+    pm.querySelector('#pmsg').textContent = msg;
+    pm.querySelector('#pmailto').href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent('Print order: ' + p.title) + '&body=' + encodeURIComponent(msg);
+    pm.querySelector('.ct').textContent = (cur + 1) + ' of ' + vis.length;
+    pm.scrollTop = 0;
+    const c = document.getElementById('pcopy'); c.textContent = 'Copy order message';
+  }
+  let swapT;
+  function show(k, dir) {
+    if (!pm.classList.contains('on') || !dir) { paint(k); return; }
+    clearTimeout(swapT);
+    cur = (k + vis.length) % vis.length;
+    pm.style.setProperty('--dx', (dir * 36) + 'px');
+    pm.classList.add('swapping');
+    swapT = setTimeout(() => {
+      paint(cur);
+      pm.classList.add('pre'); pm.classList.remove('swapping'); void pm.offsetWidth;
+      const done = () => pm.classList.remove('pre');
+      pimg.decode ? pimg.decode().then(done, done) : done();
+    }, 520);
+  }
+  function open(i, el) { opener = el; const k = vis.indexOf(i); paint(k < 0 ? 0 : k); pm.classList.add('on'); pm.querySelector('.x').focus(); document.body.style.overflow = 'hidden'; }
+  function close() { pm.classList.remove('on'); document.body.style.overflow = ''; if (opener) opener.focus(); }
+  tiles.forEach(t => t.addEventListener('click', () => open(+t.dataset.i, t)));
+  pm.querySelector('.x').onclick = close;
+  pm.querySelector('.pv').onclick = () => show(cur - 1, -1);
+  pm.querySelector('.nx').onclick = () => show(cur + 1, 1);
+  document.addEventListener('keydown', e => {
+    if (!pm.classList.contains('on')) return;
+    if (e.key === 'Escape') close(); else if (e.key === 'ArrowLeft') show(cur - 1, -1); else if (e.key === 'ArrowRight') show(cur + 1, 1);
+  });
+  document.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === ch));
+    const f = ch.dataset.f;
+    vis = [];
+    tiles.forEach((t, i) => { const ok = f === 'all' || t.dataset.c === f; t.hidden = !ok; if (ok) vis.push(i); });
+  }));
+  document.getElementById('pcopy').addEventListener('click', async e => {
+    const b = e.currentTarget, el = document.getElementById('pmsg');
+    try { await navigator.clipboard.writeText(el.textContent); b.textContent = 'Copied'; }
+    catch (err) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = 'Selected, press copy'; }
+  });
+})();
+</script>
+
+</body></html>
